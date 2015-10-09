@@ -499,7 +499,7 @@ public final class SystemServer {
             Slog.i(TAG, "Window Manager");
             wm = WindowManagerService.main(context, inputManager,
                     mFactoryTestMode != FactoryTest.FACTORY_TEST_LOW_LEVEL,
-                    !mFirstBoot, mOnlyCore);
+                    true, mOnlyCore);
             ServiceManager.addService(Context.WINDOW_SERVICE, wm);
             ServiceManager.addService(Context.INPUT_SERVICE, inputManager);
 
@@ -1226,5 +1226,10 @@ public final class SystemServer {
                     "com.android.systemui.SystemUIService"));
         //Slog.d(TAG, "Starting service: " + intent);
         context.startServiceAsUser(intent, UserHandle.OWNER);
+    }
+
+    private static void traceBeginAndSlog(String name) {
+        Trace.traceBegin(Trace.TRACE_TAG_SYSTEM_SERVER, name);
+        Slog.i(TAG, name);
     }
 }
